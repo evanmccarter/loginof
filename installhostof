@@ -1,0 +1,13 @@
+#!/bin/sh
+# Ensure folders exist
+listsLocation="/etc/hostof/hostlist"
+executablesLocation="/opt/hostof"
+mkdir -p "$listsLocation" "$executablesLocation"
+# Ensure everyone can make their own list folder
+#+but not edit others'
+chmod a=rwx "$listsLocation"
+
+# Put the scripts in their proper location
+# Make the scripts executable
+# Copy this installer
+cp hostof addhostof "$executablesLocation" && chmod +x "$executablesLocation/hostof" "$executablesLocation/addhostof" && cp $0 "$executablesLocation"
