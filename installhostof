@@ -1,13 +1,27 @@
 #!/bin/sh
-# Ensure folders exist
+# Installs hostof executables and folders
+
+# Set folder locations
 listsLocation="/etc/hostof/hostlist"
 executablesLocation="/opt/hostof"
-mkdir -p "$listsLocation" "$executablesLocation"
-# Ensure everyone can make their own list folder
-#+but not edit others'
-chmod a=rwx "$listsLocation"
+
+# Ensure folders exist
+sudo mkdir -p "$listsLocation" "$executablesLocation" && \
+
+# Ensure everyone can make their own list folder but not edit others'
+sudo chmod a=rwx "$listsLocation" && \
 
 # Put the scripts in their proper location
+sudo cp hostof addhostof "$executablesLocation" && \
+
 # Make the scripts executable
+sudo chmod +x "$executablesLocation/hostof" "$executablesLocation/addhostof" && \
+
 # Copy this installer
-cp hostof addhostof "$executablesLocation" && chmod +x "$executablesLocation/hostof" "$executablesLocation/addhostof" && cp $0 "$executablesLocation"
+sudo cp $0 "$executablesLocation" && \
+
+# Report success and useful tips...
+echo "hostof successfully installed!
+You may want to add \"$executablesLocation\" to your PATH variable automatically in your shell profile or rc file" || \
+# Or report failure
+echo "hostof NOT successfully installed"
