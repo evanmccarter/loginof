@@ -1,2 +1,2 @@
 #!/bin/sh
-awk -F ^ "toupper(\$1)~/"$(echo "$1" | awk "{ print toupper(\$0) }")"/ { print \$2 }" "/etc/hostof/hostlist/$(whoami)/hosts"
+awk -F ^ "toupper(\$1)~toupper(\"$1\") { print \$2 }" "/etc/hostof/hostlist/$(whoami)/hosts"
