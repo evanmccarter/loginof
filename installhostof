@@ -22,6 +22,10 @@ sudo cp $0 "$executablesLocation" && \
 
 # Report success and useful tips...
 echo "hostof successfully installed!
-You may want to add \"$executablesLocation\" to your PATH variable automatically in your shell profile or rc file" || \
+You may want to add \"$executablesLocation\" to your PATH variable automatically in your shell profile or rc file
+EG: 
+echo 'PATH=\$PATH:'$executablesLocation | tee -a ~/.profile
+Or: 
+echo 'PATH=\$PATH:'$executablesLocation | sudo tee -a ~/.profile /etc/profile" || \
 # Or report failure
 echo "hostof NOT successfully installed"
