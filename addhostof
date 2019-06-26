@@ -1,4 +1,6 @@
 #!/bin/sh
+# Add to the saved list of hosts associated with a name
+
 # Define where host lists are kept
 hostofFolder="/etc/hostof"
 hostListFolder="$hostofFolder/hostlist"
@@ -10,11 +12,14 @@ mkdir -p "$myHostListFolder"
 # Ensure my hosts directory is private
 chmod 700 "$myHostListFolder"
 
-# Remove old references to the user
-#+if my hosts file exists
-if [ -e "$myHostListFolder/hosts" ]; then awk -F ^ "toupper(\$1)!~/"$(echo "$1" | awk "{ print toupper(\$0) }")"/" "$myHostListFolder/hosts" > "$myHostListFolder/hosts.new"; mv "$myHostListFolder/hosts.new" "$myHostListFolder/hosts"; fi
+# Remove old references to the user if my hosts file exists
+if [ -e "$myHostListFolder/hosts" ]; 
+then 
+	awk -F ^ "toupper(\$1)!~toupper(\"$1\")" "$myHostListFolder/hosts" > "$myHostListFolder/hosts.new"; 
+	mv "$myHostListFolder/hosts.new" "$myHostListFolder/hosts"; 
+fi
 
-# Put the name and host in my hosts file, delimited by ^
-echo "$1"^"$2" >> "$myHostListFolder/hosts"
+# Put the name and host in my hosts file, delimited by ^ because it can't be in URLS and likely isn't in usernames
+echo "$1""^""$2" >> "$myHostListFolder/hosts"
 # Ensure my hosts file is private
 chmod 600 "$myHostListFolder/hosts"
