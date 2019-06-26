@@ -1,2 +1,5 @@
 #!/bin/sh
+# Extract the second of two fields delimited by ^
+#+when the first field is a substring of the input parameter
+#+from the current user's personal file
 awk -F ^ "toupper(\$1)~toupper(\"$1\") { print \$2 }" "/etc/hostof/hostlist/$(whoami)/hosts"
