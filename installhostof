@@ -15,7 +15,7 @@ sudo chmod a=rwx "$listsLocation" && \
 sudo cp hostof addhostof "$executablesLocation" && \
 
 # Make the scripts executable
-sudo chmod +x "$executablesLocation/hostof" "$executablesLocation/addhostof" && \
+sudo chmod a+x "$executablesLocation"/* && \
 
 # Copy this installer
 sudo cp $0 "$executablesLocation" && \
