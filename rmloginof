@@ -1,0 +1,23 @@
+#!/bin/sh
+# Add to the saved list of logins associated with a name
+
+# Define where login list is kept
+loginListFolder="$HOME/.loginof"
+# Define my login list file
+loginListFile="$loginListFolder/logins"
+
+# Ensure my logins directory exists
+mkdir -p "$loginListFolder"
+# Ensure my logins directory is private
+chmod ug=rwx,o= "$loginListFolder"
+
+# Ensure my logins file exists
+touch "$loginListFile"
+# Ensure my logins file is private
+chmod ug=rw,o= "$loginListFile"
+
+SEPARATOR=" "
+
+# Remove old references to the user
+awk -F "$SEPARATOR" "toupper(\$1)!~toupper(\"$1\")" "$loginListFile" > "$loginListFile.new";
+mv "$loginListFile.new" "$loginListFile";
