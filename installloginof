@@ -1,31 +1,61 @@
 #!/bin/sh
 # Installs loginof executables and folders
 
-# Set folder locations
-listsLocation="/etc/loginof/loginlist"
-executablesLocation="/opt/loginof"
+# Set locations
+listLocation="$HOME/.loginof"
+executablesLocation="$HOME/.local/bin"
+globalExecutablesLocation="/opt/loginof"
+
+# Perform local installation
 
 # Ensure folders exist
-sudo mkdir -p "$listsLocation" "$executablesLocation" && \
+mkdir -p "$listLocation" "$executablesLocation" && \
 
-# Ensure everyone can make their own list folder but not edit others'
-sudo chmod a=rwx "$listsLocation" && \
+# Ensure only the user can access their list
+chmod u=rwx,g=rx,o= "$listLocation" && \
 
 # Put the scripts in their proper location
-sudo cp loginof addloginof "$executablesLocation" && \
-
-# Copy this installer
-sudo cp $0 "$executablesLocation" && \
+cp loginof addloginof "$executablesLocation" && \
 
 # Make the scripts executable and readable
-sudo chmod a=xr "$executablesLocation"/* && \
+chmod a+xr "$executablesLocation"/* && \
 
-# Report success and useful tips...
-echo "loginof successfully installed!
-You may want to add \"$executablesLocation\" to your PATH variable automatically in your shell profile or rc file
-EG: 
-echo 'PATH=\$PATH:'$executablesLocation | tee -a ~/.profile
-Or: 
-echo 'PATH=\$PATH:'$executablesLocation | sudo tee -a ~/.profile /etc/profile" || \
+# Copy this installer
+cp $0 "$executablesLocation" && \
+
+# Make the scripts executable and readable
+chmod a+xr "$executablesLocation"/* && \
+
+# Report success
+echo "loginof successfully installed locally" ||
 # Or report failure
-{ echo "loginof NOT successfully installed"; exit 1; }
+{ echo "loginof NOT successfully installed locally"; exit 2; }
+
+
+# Perform global installation
+
+# Ensure folder exists
+sudo mkdir -p "$globalExecutablesLocation" && \
+
+# Ensure everyone can see the executables
+sudo chmod u=rwx,go=rx "$globalExecutablesLocation" && \
+
+# Put the scripts in their proper location
+sudo cp loginof addloginof "$globalExecutablesLocation" && \
+
+# Make the scripts executable and readable
+sudo chmod a+xr "$globalExecutablesLocation"/* && \
+
+# Copy this installer
+sudo cp $0 "$globalExecutablesLocation" && \
+
+# Make the scripts executable and readable
+sudo chmod a+xr "$globalExecutablesLocation"/* && \
+
+# Append to every user's PATH
+echo 'PATH=$PATH:'"$globalExecutablesLocation" | sudo tee -a /etc/profile >/dev/null && \
+
+# Report success
+echo "loginof successfully installed globally" || \
+# Or report failure
+{ echo "loginof NOT successfully installed globally"; exit 1; }

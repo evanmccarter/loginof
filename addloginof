@@ -1,29 +1,26 @@
 #!/bin/sh
 # Add to the saved list of logins associated with a name
 
-# Define where login lists are kept
-loginofFolder="/etc/loginof"
-loginListFolder="$loginofFolder/loginlist"
-# Define my login list folder
-myLoginListFolder="$loginListFolder/$(whoami)"
+# Define where login list is kept
+loginListFolder="$HOME/.loginof"
 # Define my login list file
-myLoginListFile="$myLoginListFolder/logins"
+loginListFile="$loginListFolder/logins"
 
 # Ensure my logins directory exists
-mkdir -p "$myLoginListFolder"
+mkdir -p "$loginListFolder"
 # Ensure my logins directory is private
-chmod 700 "$myLoginListFolder"
+chmod ug=rwx,o= "$loginListFolder"
 
 # Ensure my logins file exists
-touch "$myLoginListFile"
+touch "$loginListFile"
 # Ensure my logins file is private
-chmod 600 "$myLoginListFile"
+chmod ug=rw,o= "$loginListFile"
 
 SEPARATOR=" "
 
 # Remove old references to the user
-awk -F "$SEPARATOR" "toupper(\$1)!~toupper(\"$1\")" "$myLoginListFile" > "$myLoginListFile.new";
-mv "$myLoginListFile.new" "$myLoginListFile";
+awk -F "$SEPARATOR" "toupper(\$1)!~toupper(\"$1\")" "$loginListFile" > "$loginListFile.new";
+mv "$loginListFile.new" "$loginListFile";
 
 # Put the name and login in my logins file, delimited by SEPARATOR
-echo "$1""$SEPARATOR""$2" >> "$myLoginListFile"
+echo "$1""$SEPARATOR""$2" >> "$loginListFile"
