@@ -15,7 +15,7 @@ mkdir -p "$listLocation" "$executablesLocation" && \
 chmod u=rwx,g=rx,o= "$listLocation" && \
 
 # Put the scripts in their proper location
-cp loginof addloginof "$executablesLocation" && \
+cp loginof rmloginof addloginof "$executablesLocation" && \
 
 # Make the scripts executable and readable
 chmod a+xr "$executablesLocation"/* && \
@@ -32,6 +32,13 @@ echo "loginof successfully installed locally" ||
 { echo "loginof NOT successfully installed locally"; exit 2; }
 
 
+# Ask user if they want to install globally
+
+echo "Do you have sudo access and want to install system-wide? [Y]"
+
+read REPLY
+
+if [ "$REPLY" = "Y" ]; then
 # Perform global installation
 
 # Ensure folder exists
@@ -41,7 +48,7 @@ sudo mkdir -p "$globalExecutablesLocation" && \
 sudo chmod u=rwx,go=rx "$globalExecutablesLocation" && \
 
 # Put the scripts in their proper location
-sudo cp loginof addloginof "$globalExecutablesLocation" && \
+sudo cp loginof rmloginof addloginof "$globalExecutablesLocation" && \
 
 # Make the scripts executable and readable
 sudo chmod a+xr "$globalExecutablesLocation"/* && \
@@ -59,3 +66,4 @@ echo 'PATH=$PATH:'"$globalExecutablesLocation" | sudo tee -a /etc/profile >/dev/
 echo "loginof successfully installed globally" || \
 # Or report failure
 { echo "loginof NOT successfully installed globally"; exit 1; }
+fi
