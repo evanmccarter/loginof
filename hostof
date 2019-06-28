@@ -2,4 +2,8 @@
 # Extract the second of two fields delimited by ^
 #+when the first field is a substring of the input parameter
 #+from the current user's personal file
-awk -F ^ "toupper(\$1)~toupper(\"$1\") { print \$2 }" "/etc/hostof/hostlist/$(whoami)/hosts"
+SEPARATOR=" "
+# Print a matching line and then stop
+awk -F "$SEPARATOR" "toupper(\$1)~toupper(\"$1\") { print \$0; exit }" "/etc/hostof/hostlist/$(whoami)/hosts" | \
+# Then remove the first field (print all fields starting from the second)
+cut -d "$SEPARATOR" -f 2-

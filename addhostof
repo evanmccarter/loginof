@@ -6,20 +6,24 @@ hostofFolder="/etc/hostof"
 hostListFolder="$hostofFolder/hostlist"
 # Define my host list folder
 myHostListFolder="$hostListFolder/$(whoami)"
+# Define my host list file
+myHostListFile="$myHostListFolder/hosts"
 
 # Ensure my hosts directory exists
 mkdir -p "$myHostListFolder"
 # Ensure my hosts directory is private
 chmod 700 "$myHostListFolder"
 
-# Remove old references to the user if my hosts file exists
-if [ -e "$myHostListFolder/hosts" ]; 
-then 
-	awk -F ^ "toupper(\$1)!~toupper(\"$1\")" "$myHostListFolder/hosts" > "$myHostListFolder/hosts.new"; 
-	mv "$myHostListFolder/hosts.new" "$myHostListFolder/hosts"; 
-fi
-
-# Put the name and host in my hosts file, delimited by ^ because it can't be in URLS and likely isn't in usernames
-echo "$1""^""$2" >> "$myHostListFolder/hosts"
+# Ensure my hosts file exists
+touch "$myHostListFile"
 # Ensure my hosts file is private
-chmod 600 "$myHostListFolder/hosts"
+chmod 600 "$myHostListFile"
+
+SEPARATOR=" "
+
+# Remove old references to the user
+awk -F "$SEPARATOR" "toupper(\$1)!~toupper(\"$1\")" "$myHostListFile" > "$myHostListFile.new";
+mv "$myHostListFile.new" "$myHostListFile";
+
+# Put the name and host in my hosts file, delimited by SEPARATOR
+echo "$1""$SEPARATOR""$2" >> "$myHostListFile"
