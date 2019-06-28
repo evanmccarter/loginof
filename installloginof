@@ -1,9 +1,9 @@
 #!/bin/sh
-# Installs hostof executables and folders
+# Installs loginof executables and folders
 
 # Set folder locations
-listsLocation="/etc/hostof/hostlist"
-executablesLocation="/opt/hostof"
+listsLocation="/etc/loginof/loginlist"
+executablesLocation="/opt/loginof"
 
 # Ensure folders exist
 sudo mkdir -p "$listsLocation" "$executablesLocation" && \
@@ -12,20 +12,20 @@ sudo mkdir -p "$listsLocation" "$executablesLocation" && \
 sudo chmod a=rwx "$listsLocation" && \
 
 # Put the scripts in their proper location
-sudo cp hostof addhostof "$executablesLocation" && \
-
-# Make the scripts executable
-sudo chmod a+x "$executablesLocation"/* && \
+sudo cp loginof addloginof "$executablesLocation" && \
 
 # Copy this installer
 sudo cp $0 "$executablesLocation" && \
 
+# Make the scripts executable and readable
+sudo chmod a=xr "$executablesLocation"/* && \
+
 # Report success and useful tips...
-echo "hostof successfully installed!
+echo "loginof successfully installed!
 You may want to add \"$executablesLocation\" to your PATH variable automatically in your shell profile or rc file
 EG: 
 echo 'PATH=\$PATH:'$executablesLocation | tee -a ~/.profile
 Or: 
 echo 'PATH=\$PATH:'$executablesLocation | sudo tee -a ~/.profile /etc/profile" || \
 # Or report failure
-echo "hostof NOT successfully installed"
+{ echo "loginof NOT successfully installed"; exit 1; }
