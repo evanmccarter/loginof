@@ -2,7 +2,7 @@
 # Extract the second of two fields delimited by ^
 #+when the first field is a substring of the input parameter
 #+from the current user's personal file
-SEPARATOR=" "
+SEPARATOR=":"
 # Print a matching line and then stop
 awk -F "$SEPARATOR" "toupper(\$1)~toupper(\"$1\") { print \$0; exit }" "$HOME/.loginof/logins" | \
 # Then remove the first field (print all fields starting from the second)
