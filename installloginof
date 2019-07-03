@@ -20,6 +20,10 @@ cp loginof rmloginof addloginof "$executablesLocation" && \
 # Make the scripts executable and readable
 chmod a+xr "$executablesLocation"/* && \
 
+# Ensure the executables folder is in the PATH
+echo 'PATH=$PATH:'"$executablesLocation" | tee -a ~/.profile >/dev/null && \
+PATH="$PATH":"$executablesLocation" && \
+
 # Copy this installer
 cp $0 "$executablesLocation" && \
 
@@ -53,14 +57,15 @@ sudo cp loginof rmloginof addloginof "$globalExecutablesLocation" && \
 # Make the scripts executable and readable
 sudo chmod a+xr "$globalExecutablesLocation"/* && \
 
+# Append to every user's PATH
+echo 'PATH=$PATH:'"$globalExecutablesLocation" | sudo tee -a /etc/profile >/dev/null && \
+PATH="$PATH":"$globalExecutablesLocation" && \
+
 # Copy this installer
 sudo cp $0 "$globalExecutablesLocation" && \
 
 # Make the scripts executable and readable
 sudo chmod a+xr "$globalExecutablesLocation"/* && \
-
-# Append to every user's PATH
-echo 'PATH=$PATH:'"$globalExecutablesLocation" | sudo tee -a /etc/profile >/dev/null && \
 
 # Report success
 echo "loginof successfully installed globally" || \
