@@ -21,7 +21,7 @@ cp loginof rmloginof addloginof "$EXECUTABLESLOCATION" && \
 chmod a+xr "$EXECUTABLESLOCATION"/* && \
 
 # Ensure the executables folder is in the PATH
-echo 'PATH=$PATH:'"$EXECUTABLESLOCATION" | tee -a ~/.profile >/dev/null && \
+echo 'PATH="$PATH":'"$EXECUTABLESLOCATION" | tee -a ~/.profile >/dev/null && \
 PATH="$PATH":"$EXECUTABLESLOCATION" && \
 
 # Copy this installer
@@ -58,7 +58,7 @@ sudo cp loginof rmloginof addloginof "$GLOBALEXECUTABLESLOCATION" && \
 sudo chmod a+xr "$GLOBALEXECUTABLESLOCATION"/* && \
 
 # Append to every user's PATH
-echo 'PATH=$PATH:'"$GLOBALEXECUTABLESLOCATION" | sudo tee -a /etc/profile >/dev/null && \
+echo 'PATH="$PATH":'"$GLOBALEXECUTABLESLOCATION" | sudo tee -a /etc/profile >/dev/null && \
 PATH="$PATH":"$GLOBALEXECUTABLESLOCATION" && \
 
 # Copy this installer
