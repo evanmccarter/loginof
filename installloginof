@@ -71,4 +71,10 @@ sudo chmod a+xr "$GLOBALEXECUTABLESLOCATION"/* && \
 echo "loginof successfully installed globally" || \
 # Or report failure
 { echo "loginof NOT successfully installed globally"; exit 1; }
+
+
+else
+# The user didn't want to install globally
+echo "loginof not being installed globally"
+
 fi
