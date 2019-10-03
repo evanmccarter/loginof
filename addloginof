@@ -4,7 +4,8 @@
 # Define where login list is kept
 loginListFolder="$HOME/.loginof"
 # Define my login list file
-loginListFile="$loginListFolder/logins"
+loginListFileName="logins"
+loginListFileLocation="$loginListFolder/$loginListFileName"
 
 # Ensure my logins directory exists
 mkdir -p "$loginListFolder"
@@ -12,15 +13,15 @@ mkdir -p "$loginListFolder"
 chmod ug=rwx,o= "$loginListFolder"
 
 # Ensure my logins file exists
-touch "$loginListFile"
+touch "$loginListFileLocation"
 # Ensure my logins file is private
-chmod ug=rw,o= "$loginListFile"
+chmod ug=rw,o= "$loginListFileLocation"
 
 SEPARATOR=":"
 
 # Remove old references to the user
-awk -F "$SEPARATOR" "toupper(\$1)!~toupper(\"$1\")" "$loginListFile" > "$loginListFile.new";
-mv "$loginListFile.new" "$loginListFile";
+awk -F "$SEPARATOR" 'toupper($1)!~toupper("'"$1"'")' "$loginListFileLocation" > "$loginListFileLocation.new";
+mv "$loginListFileLocation.new" "$loginListFileLocation";
 
 # Put the name and login in my logins file, delimited by SEPARATOR
-echo "$1""$SEPARATOR""$2" >> "$loginListFile"
+echo "$1""$SEPARATOR""$2" >> "$loginListFileLocation"

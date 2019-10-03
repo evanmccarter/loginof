@@ -1,9 +1,12 @@
 #!/bin/sh
-# Extract the second of two fields delimited by ^
+# Extract the second of two fields delimited by the SEPARATOR
 #+when the first field is a substring of the input parameter
 #+from the current user's personal file
+
+# The separator that divides the first field from the rest
 SEPARATOR=":"
+
 # Print a matching line and then stop
-awk -F "$SEPARATOR" "toupper(\$1)~toupper(\"$1\") { print \$0; exit }" "$HOME/.loginof/logins" | \
+awk -F "$SEPARATOR" 'toupper($1)~toupper("'"$1"'") { print $0; exit } END{ exit 1 }' "$HOME/.loginof/logins" | \
 # Then remove the first field (print all fields starting from the second)
 cut -d "$SEPARATOR" -f 2-
