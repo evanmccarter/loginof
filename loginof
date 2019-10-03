@@ -1,10 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 # Extract the second of two fields delimited by the SEPARATOR
 #+when the first field is a substring of the input parameter
 #+from the current user's personal file
 
 # The separator that divides the first field from the rest
 SEPARATOR=":"
+
+# Let awk failures bubble up instead of being masked by cut's success
+set -o pipefail
 
 # Print a matching line and then stop
 awk -F "$SEPARATOR" 'toupper($1)~toupper("'"$1"'") { print $0; exit } END{ exit 1 }' "$HOME/.loginof/logins" | \
