@@ -24,4 +24,4 @@ awk -F "$SEPARATOR" 'toupper($1)!~toupper("'"$1"'")' "$LOGINLISTFILELOCATION" > 
 mv "$LOGINLISTFILELOCATION.new" "$LOGINLISTFILELOCATION";
 
 # Put the name and login in my logins file, delimited by SEPARATOR
-echo "$1""$SEPARATOR""$2" >> "$loginListFileLocation"
+echo "$1""$SEPARATOR""$2" >> "$LOGINLISTFILELOCATION"
